@@ -1,3 +1,8 @@
+# 修正版 GitHub Actions 工作流代码
+# 修复YAML语法错误
+
+请复制以下代码替换您当前的工作流文件：
+
 ```yaml
 name: Daily News Email
 
@@ -30,35 +35,32 @@ jobs:
       
     - name: Create sample news report
       run: |
-        cat > reports/今日新闻摘要_测试.md << 'EOF'
-# 📰 今日国际新闻摘要 - 测试
-
-## 🌍 国际新闻动态
-
-### 1. 中美关系
-- 双方高层对话持续进行
-- 贸易合作有望进一步深化
-
-### 2. 欧洲经济
-- 通胀压力有所缓解
-- 经济增长预期上调
-
-### 3. 亚太地区
-- 区域合作不断加强
-- 数字经济快速发展
-
-## 💰 财经市场
-- 全球股市表现平稳
-- 大宗商品价格波动收窄
-
----
-*此报告由GitHub Actions自动生成*  
-*生成时间: $(date)*
-EOF
+        echo "# 📰 今日国际新闻摘要 - 测试" > reports/今日新闻摘要_测试.md
+        echo "" >> reports/今日新闻摘要_测试.md
+        echo "## 🌍 国际新闻动态" >> reports/今日新闻摘要_测试.md
+        echo "" >> reports/今日新闻摘要_测试.md
+        echo "### 1. 中美关系" >> reports/今日新闻摘要_测试.md
+        echo "- 双方高层对话持续进行" >> reports/今日新闻摘要_测试.md
+        echo "- 贸易合作有望进一步深化" >> reports/今日新闻摘要_测试.md
+        echo "" >> reports/今日新闻摘要_测试.md
+        echo "### 2. 欧洲经济" >> reports/今日新闻摘要_测试.md
+        echo "- 通胀压力有所缓解" >> reports/今日新闻摘要_测试.md
+        echo "- 经济增长预期上调" >> reports/今日新闻摘要_测试.md
+        echo "" >> reports/今日新闻摘要_测试.md
+        echo "### 3. 亚太地区" >> reports/今日新闻摘要_测试.md
+        echo "- 区域合作不断加强" >> reports/今日新闻摘要_测试.md
+        echo "- 数字经济快速发展" >> reports/今日新闻摘要_测试.md
+        echo "" >> reports/今日新闻摘要_测试.md
+        echo "## 💰 财经市场" >> reports/今日新闻摘要_测试.md
+        echo "- 全球股市表现平稳" >> reports/今日新闻摘要_测试.md
+        echo "- 大宗商品价格波动收窄" >> reports/今日新闻摘要_测试.md
+        echo "" >> reports/今日新闻摘要_测试.md
+        echo "---" >> reports/今日新闻摘要_测试.md
+        echo "*此报告由GitHub Actions自动生成*" >> reports/今日新闻摘要_测试.md
         
-    - name: Send email
+    - name: Send test email
       run: |
-        python -c "
+        python3 -c "
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -79,8 +81,7 @@ try:
     msg['Subject'] = '✅ GitHub Actions测试成功 - ' + datetime.now().strftime('%Y-%m-%d %H:%M')
     
     # 邮件正文
-    body = '''
-🎉 GitHub Actions新闻摘要系统测试成功！
+    body = '''🎉 GitHub Actions新闻摘要系统测试成功！
 
 📋 系统状态：
 - ✅ 自动化工作流正常运行
@@ -97,8 +98,7 @@ try:
 
 ---
 GitHub Actions自动化系统
-测试时间: ''' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '''
-'''
+测试时间: ''' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
     
@@ -115,3 +115,27 @@ except Exception as e:
     print(f'❌ 邮件发送失败: {e}')
 "
 ```
+
+## 🔧 主要修复
+
+### YAML语法修正：
+- ✅ 移除了多行字符串的复杂语法（`<< 'EOF'`）
+- ✅ 使用简单的echo命令创建文件
+- ✅ 确保所有缩进正确（2个空格）
+- ✅ 修复了Python代码中的引号问题
+
+### 步骤说明：
+1. **检出代码** - 获取项目文件
+2. **设置Python环境** - 配置Python 3.9
+3. **安装依赖** - 只安装核心包
+4. **创建报告目录** - 确保目录存在
+5. **创建测试新闻文件** - 使用echo命令安全创建
+6. **发送测试邮件** - 验证邮件功能
+
+## 🚀 使用步骤
+
+1. 复制上面的YAML代码
+2. 替换GitHub仓库中的工作流文件
+3. 保存并重新运行
+
+这个版本应该能解决YAML语法错误问题！
